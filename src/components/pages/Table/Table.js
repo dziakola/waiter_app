@@ -7,8 +7,7 @@ const Table = () => {
     const { tableId } = useParams();
     return(
         <>
-            <Header></Header>
-            <Heading>`Table ${tableId}`</Heading>
+            <Heading>{`Table ${tableId}`}</Heading>
         </>
     )
 }

@@ -1,19 +1,16 @@
-import styles from './TableForm.module.scss';
+import styles from './TableDelete.module.scss';
 import ButtonTable from '../../common/ButtonTable/ButtonTable';
 import { Row, Col } from 'react-bootstrap';
-import { addTableRequest } from '../../../redux/tablesRedux';
+import { removeTableRequest } from '../../../redux/tablesRedux';
 import { useDispatch } from 'react-redux';
 import { getAllTables } from '../../../redux/tablesRedux';
 import { useSelector } from 'react-redux';
 
-const TableForm = props => {
-    const id = useSelector(getAllTables).map(table=>table.id);
-    const newId = id[id.length-1] + 1;
-    
+const TableDelete = props => {
     const dispatch = useDispatch();
     const handleSubmit = e => {
         e.preventDefault();
-        dispatch(addTableRequest({id:newId, status: 'Free', peopleAmount: 0, maxPeopleAmount: 4, bill:0 }))
+        dispatch(removeTableRequest(props.TableId));
     }
     
     return(
@@ -23,4 +20,4 @@ const TableForm = props => {
     )
 }
 
-export default TableForm;
+export default TableDelete;

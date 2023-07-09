@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 
 const App = () => {
   const dispatch = useDispatch();
-  useEffect(() => fetchTables(dispatch), [dispatch]);
+  useEffect(() => dispatch(fetchTables()), [dispatch]);
   const tables = useSelector(state=>getAllTables(state));
   console.log("APP:" + tables);
 

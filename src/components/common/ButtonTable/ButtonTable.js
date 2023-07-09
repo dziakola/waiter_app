@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 
 const ButtonTable = props => {
     return(
-        <Button>
+        <Button onClick={props.onClick} >
             {props.children}
         </Button>
     )
