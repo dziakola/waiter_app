@@ -9,7 +9,6 @@ import shortid from 'shortid';
 
 const TableList = () => {
     const tables = useSelector(getAllTables);
-    console.log("TableList:" + tables);
     if(tables.length === 0)
     return (
       <div>
@@ -20,15 +19,19 @@ const TableList = () => {
     return(
         <Container>
             {tables.map(table => (
-                <Row key={table.id} className='p-3'>
+                <Row key={table.id} className="text-left" >
                     <Col md={6}>
                         <h3>{`Table ${table.id}`}</h3>
                     </Col>
                     <Col md={2}>
                         <p>{`Status: ${table.status}`}</p>
                     </Col>
-                    <Col md={4}>                        
-                        <Link to={`/table/${table.id}`} className={styles.listLink}><ButtonTable>SHOW MORE</ButtonTable></Link>
+                    <Col md={2}>                        
+                        <Link to={`/table/${table.id}`}>
+                            <ButtonTable>SHOW MORE</ButtonTable>
+                        </Link>
+                    </Col>
+                    <Col md={2}>
                         <TableDelete TableId={table.id}>REMOVE</TableDelete>
                     </Col>
                 </Row>

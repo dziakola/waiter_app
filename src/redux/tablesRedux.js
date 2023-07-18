@@ -5,29 +5,28 @@ const createActionName = actionName => `app/tables/${actionName}`;
 const UPDATE_TABLES = createActionName('UPDATE_TABLES');
 const ADD_TABLE = createActionName('ADD_TABLE');
 const REMOVE_TABLE = createActionName('REMOVE_TABLE');
+const EDIT_TABLE = createActionName('EDIT_TABLE');
 
 // action creators
 export const updateTables = payload => ({type: UPDATE_TABLES, payload });
 export const addTable = payload => ({type: ADD_TABLE, payload});
 export const removeTable = payload => ({type: REMOVE_TABLE, payload});
+export const editTable = payload => ({type: EDIT_TABLE, payload});
 
+//requests
 export const fetchTables = () => {
   return (dispatch) => {
   fetch(`${API_URL}/tables`)
-    .then((res) => res.json())
+    .then((res) => {
+      if(!res.ok) {
+        throw new Error('Something went wrong');
+      }
+      else return res.json()
+    })
     .then((tables) => dispatch(updateTables(tables)));
   }
 };
-export const removeTableRequest = (id) => {
-  return (dispatch) =>{
-    const options = {
-      method: 'DELETE',
-    };
-    fetch(`${API_URL}/tables/${id}`, options)
-    .then(response=>response.json())
-    .then(()=>dispatch(removeTable(id)));
-  }
-}
+
 export const addTableRequest = (newTable) => {
   return (dispatch) =>{
     const options = {
@@ -38,9 +37,52 @@ export const addTableRequest = (newTable) => {
       body: JSON.stringify(newTable),
     };
     fetch(`${API_URL}/tables`, options)
-    .then(()=>dispatch(addTable(newTable)));
+    .then((res)=> {
+      if(!res.ok) {
+        throw new Error('Something went wrong');
+      }
+     dispatch(addTable(newTable))})
+    .catch(error => console.log("Error: ", error));
   }
 }
+
+export const removeTableRequest = (id) => {
+  return (dispatch) =>{
+    const options = {
+      method: 'DELETE',
+    };
+    fetch(`${API_URL}/tables/${id}`, options)
+    .then((res)=> {
+      if(!res.ok) {
+        throw new Error('Something went wrong');
+      }
+      else {
+        return ()=>dispatch(removeTable(id))
+      }
+    })
+    .catch(error => console.log("Error: ", error));
+  }
+}
+
+export const changeTableRequest = (editedTable) => {
+  return(dispatch) =>{
+    const options = {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(editedTable),
+    };
+    fetch(`${API_URL}/tables/${editedTable.id}`, options)
+    .then((res)=> {
+      if(!res.ok) {
+        throw new Error('Something went wrong');
+      }
+     dispatch(editTable(editedTable))})
+    .catch(error => console.log("Error: ", error));
+  }
+}
+
 const tablesReducer = (statePart = [], action) => {
   switch (action.type) {
     case UPDATE_TABLES: 
@@ -48,13 +90,13 @@ const tablesReducer = (statePart = [], action) => {
     case ADD_TABLE:
       return [...statePart, {...action.payload}]
     case REMOVE_TABLE:
-      return statePart.filter(table=>table.id !== action.payload);
+      return statePart.filter(table=>table.id !== action.payload)
+    case EDIT_TABLE:
+      return [statePart.filter(table=>table.id !== action.payload), {...action.payload}]
     default:
       return statePart;
   };
 };
 //selectors
 export const getAllTables = state => state.tables;
-
-
 export default tablesReducer;

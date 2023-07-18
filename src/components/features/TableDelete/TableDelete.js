@@ -14,8 +14,10 @@ const TableDelete = props => {
     }
     
     return(
-        <Row className='justify-content-end'>
-            <Col md={4} ><ButtonTable onClick={handleSubmit}>{props.children}</ButtonTable></Col>
+        <Row>
+            <Col md={4}>
+                <ButtonTable onClick={handleSubmit}>{props.children}</ButtonTable>
+            </Col>
         </Row>
     )
 }
