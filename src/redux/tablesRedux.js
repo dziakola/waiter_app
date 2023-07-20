@@ -71,14 +71,14 @@ export const changeTableRequest = (editedTable) => {
       headers: {
         'Content-type': 'application/json'
       },
-      body: JSON.stringify(editedTable),
+      body: JSON.stringify({...editedTable}),
     };
     fetch(`${API_URL}/tables/${editedTable.id}`, options)
     .then((res)=> {
       if(!res.ok) {
         throw new Error('Something went wrong');
       }
-     dispatch(editTable(editedTable))})
+     return dispatch(editTable(editedTable))})
     .catch(error => console.log("Error: ", error));
   }
 }
@@ -90,9 +90,11 @@ const tablesReducer = (statePart = [], action) => {
     case ADD_TABLE:
       return [...statePart, {...action.payload}]
     case REMOVE_TABLE:
-      return statePart.filter(table=>table.id !== action.payload)
+      return [statePart.filter(table=>table.id !== action.payload)]
     case EDIT_TABLE:
-      return [statePart.filter(table=>table.id !== action.payload), {...action.payload}]
+      return statePart.map((table) =>
+        table.id === action.payload.id ? { ...table, ...action.payload } : table
+      );
     default:
       return statePart;
   };

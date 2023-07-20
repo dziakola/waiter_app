@@ -6,47 +6,81 @@ import { Container } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import ButtonTable from '../../common/ButtonTable/ButtonTable';
-import changeTableRequest from '../../../redux/tablesRedux';
+import { changeTableRequest } from '../../../redux/tablesRedux';
+import { useState,useEffect } from 'react';
 
-
-const TableForm =() => {
-    const { tableId } = useParams();
-    const tables = useSelector(getAllTables);
+const TableForm =(props) => {
+    const id = props.tableId;
     const dispatch = useDispatch();
+    const [status, setStatus] = useState(props.status);
+    const [peopleAmount, setPeople] = useState(props.peopleAmount);
+    const [maxPeopleAmount, setmaxPeople] = useState(props.maxPeopleAmount);
+    const [bill, setBill] = useState(props.bill);
+    const tables = useSelector(getAllTables);
+    const list = {id,status,peopleAmount,maxPeopleAmount,bill};
+    console.log(list.id)
     
+    useEffect(() => {
+    if (status !== 'Busy') {
+      setBill(0);
+    } else if (status === 'Reserved') {
+      // setPeopleAmount(0);
+      // setMaxPeopleAmount(10);
+      setBill(0);
+      setStatus(status);
+    } else if (status === 'Free' || status === 'Cleaning') {
+      setPeople(0);
+    }
+  }, [status, bill]);
+
+  useEffect(() => {
+    if (maxPeopleAmount > 10) {
+      alert('Max People 10');
+      setmaxPeople(10);
+    } else if (peopleAmount > 10) {
+      setPeople(10);
+    } else if (maxPeopleAmount < 0) {
+      setmaxPeople(0);
+    } else if (peopleAmount < 0) {
+      setPeople(0);
+    } else if (peopleAmount > maxPeopleAmount) {
+      alert('WARNING!!! People cannot be higher than MaxPeople ');
+      setPeople(maxPeopleAmount);
+    }
+  }, [maxPeopleAmount, peopleAmount]);
+
     const handleSubmit = event =>{
       event.preventDefault();
-      const {id, status, people, maxPeople, bill} = event.target;
-      dispatch(changeTableRequest({[id]:tableId, [status]: 'Free', [people]: 0, [maxPeople]: 4, [bill]:0 }))
+      dispatch(changeTableRequest({id,status,peopleAmount,maxPeopleAmount,bill}))
     }
     return (
     <Container>
-        {tables.filter(table=>table.id==tableId).map(table=>
-        <Form key={table.id}>
+        <Form>
           <Form.Group>
             <p>
             Status:
-            <Form.Select key={table.id} aria-label="Select status" value={table.status} name="status">
-              <option defaultValue={table.status}>{`${table.status}`}</option>
-              <option value="2">Busy</option>
-              <option value="3">Cleaning</option>
-              <option value="4">Reserved</option>
+            <Form.Select key={id} aria-label="Select status" value={status} name="status" onChange={e => setStatus(e.target.value)}>
+              <option defaultValue={status}>{`${status}`}</option>
+              <option value="Busy">Busy</option>
+              <option value="Cleaning">Cleaning</option>
+              <option value="Reserved">Reserved</option>
             </Form.Select>
             </p>
             <p>
             People:
-            <Form.Control type="text" className={styles.input} value={table.people}></Form.Control> / <Form.Control value={table.maxPeople} ></Form.Control>
+            <Form.Control className={styles.input} value={peopleAmount} onChange={e => setPeople(e.target.value)}></Form.Control> 
+            / 
+            <Form.Control value={maxPeopleAmount} onChange={e => setmaxPeople(e.target.value)}></Form.Control>
             </p>
             <p>
             Bill ($): 
-            <Form.Control type="text" className={styles.input} value={table.bill}></Form.Control>
+            <Form.Control className={styles.input} value={bill} onChange={e => setBill(e.target.value)}></Form.Control>
             </p>
             <p>
             <ButtonTable onClick={handleSubmit}>SAVE</ButtonTable>
             </p>
           </Form.Group>
         </Form>
-        )}
     </Container>
     );
 }
