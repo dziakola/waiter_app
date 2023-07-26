@@ -16,10 +16,10 @@ const TableForm =(props) => {
     const [peopleAmount, setPeople] = useState(props.peopleAmount);
     const [maxPeopleAmount, setmaxPeople] = useState(props.maxPeopleAmount);
     const [bill, setBill] = useState(props.bill);
-    const tables = useSelector(getAllTables);
+    /* const tables = useSelector(getAllTables);
     const list = {id,status,peopleAmount,maxPeopleAmount,bill};
     console.log(list.id)
-    
+     */
     useEffect(() => {
     if (status !== 'Busy') {
       setBill(0);
