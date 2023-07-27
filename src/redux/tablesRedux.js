@@ -41,7 +41,9 @@ export const addTableRequest = (newTable) => {
       if(!res.ok) {
         throw new Error('Something went wrong');
       }
-     dispatch(addTable(newTable))})
+     dispatch(addTable(newTable)
+     )
+    })
     .catch(error => console.log("Error: ", error));
   }
 }
@@ -57,7 +59,7 @@ export const removeTableRequest = (id) => {
         throw new Error('Something went wrong');
       }
       else {
-        return ()=>dispatch(removeTable(id))
+        dispatch(removeTable(id))
       }
     })
     .catch(error => console.log("Error: ", error));
