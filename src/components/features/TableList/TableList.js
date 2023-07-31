@@ -21,7 +21,6 @@ const TableList = () => {
       </div>
     );
         const handleSubmit = (e, id) => {
-        e.preventDefault();
         dispatch(removeTableRequest(id));
         navigate("/");
     }
