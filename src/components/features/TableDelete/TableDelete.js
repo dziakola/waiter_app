@@ -8,19 +8,10 @@ import { useSelector } from 'react-redux';
 import { Link, useNavigate } from "react-router-dom";
 
 const TableDelete = props => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-
-    const handleSubmit = e => {
-        e.preventDefault();
-        dispatch(removeTableRequest(props.TableId));
-        navigate("/");
-    }
-    
     return(
         <Row>
             <Col md={4}>
-                <ButtonTable onClick={handleSubmit}>{props.children}</ButtonTable>
+                <ButtonTable>{props.children}</ButtonTable>
             </Col>
         </Row>
     )

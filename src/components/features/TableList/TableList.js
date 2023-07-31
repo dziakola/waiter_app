@@ -2,13 +2,17 @@ import { Spinner, Container, Row, Col } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import ButtonTable from '../../common/ButtonTable/ButtonTable';
 import styles from './TableList.module.scss';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch, useNavigate } from 'react-redux';
 import { getAllTables } from '../../../redux/tablesRedux';
 import TableDelete from '../TableDelete/TableDelete';
 import shortid from 'shortid';
+import { removeTableRequest } from '../../../redux/tablesRedux';
+
 
 const TableList = () => {
     const tables = useSelector(getAllTables);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     if(tables.length === 0)
     return (
       <div>
@@ -16,6 +20,11 @@ const TableList = () => {
         <p>Loading</p>
       </div>
     );
+        const handleSubmit = (e, id) => {
+        e.preventDefault();
+        dispatch(removeTableRequest(id));
+        navigate("/");
+    }
     return(
         <Container>
             {tables.map(table => (
@@ -32,7 +41,7 @@ const TableList = () => {
                         </Link>
                     </Col>
                     <Col md={2}>
-                        <TableDelete TableId={table.id}>REMOVE</TableDelete>
+                        <TableDelete onClick={handleSubmit(table.id)}>REMOVE</TableDelete>
                     </Col>
                 </Row>
             ))}
