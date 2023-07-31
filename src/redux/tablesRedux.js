@@ -84,7 +84,7 @@ export const changeTableRequest = (editedTable) => {
     .catch(error => console.log("Error: ", error));
   }
 }
-
+//zmiana w reducer
 const tablesReducer = (statePart = [], action) => {
   switch (action.type) {
     case UPDATE_TABLES: 
