@@ -5,12 +5,16 @@ import { removeTableRequest } from '../../../redux/tablesRedux';
 import { useDispatch } from 'react-redux';
 import { getAllTables } from '../../../redux/tablesRedux';
 import { useSelector } from 'react-redux';
+import { Link, useNavigate } from "react-router-dom";
 
 const TableDelete = props => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const handleSubmit = e => {
         e.preventDefault();
         dispatch(removeTableRequest(props.TableId));
+        navigate("/");
     }
     
     return(
