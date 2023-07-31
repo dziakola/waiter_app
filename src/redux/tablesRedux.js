@@ -92,7 +92,7 @@ const tablesReducer = (statePart = [], action) => {
     case ADD_TABLE:
       return [...statePart, {...action.payload}]
     case REMOVE_TABLE:
-      return [statePart.filter(table=>table.id !== action.payload)]
+      return statePart.filter(table=>table.id !== action.payload)
     case EDIT_TABLE:
       return statePart.map((table) =>
         table.id === action.payload.id ? { ...table, ...action.payload } : table
