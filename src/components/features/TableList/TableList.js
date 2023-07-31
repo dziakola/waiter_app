@@ -41,7 +41,7 @@ const TableList = () => {
                         </Link>
                     </Col>
                     <Col md={2}>
-                        <TableDelete onClick={handleSubmit(table.id)}>REMOVE</TableDelete>
+                        <TableDelete onClick={()=>handleSubmit(table.id)}>REMOVE</TableDelete>
                     </Col>
                 </Row>
             ))}
