@@ -49,7 +49,7 @@ export const addTableRequest = (newTable) => {
   }
 }
 
-/* export const removeTableRequest = (id) => {
+export const removeTableRequest = (id) => {
   return (dispatch) => {
     const options = {
       method: 'DELETE',
@@ -64,30 +64,13 @@ export const addTableRequest = (newTable) => {
         throw new Error('Something went wrong');
       }
       else {
-        res.json().then(()=>dispatch(removeTable(id)))
+        return res.json()
       }
-    })
+    }).then(dispatch(removeTable(id)))
     .catch(error => console.log("Error: ", error));
 
   }
-} */
-export const removeTableRequest = (id) => {
-  return (dispatch) => {
-    const removedId = {id};
-
-    const options = {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(removedId),
-    }
-    fetch(`${API_URL}/tables/${id}`, options)
-      .then((res) => res.json())
-      //.then((data) => console.log('data', data));
-      .then((data) => dispatch(removeTable(id)));
-  };
-};
+}
 
 export const changeTableRequest = (editedTable) => {
   return (dispatch) => {
