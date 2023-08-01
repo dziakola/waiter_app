@@ -1,7 +1,21 @@
 {
   "tables": [
     {
-      "id": "9",
+      "id": "911",
+      "status": "Free",
+      "peopleAmount": 0,
+      "maxPeopleAmount": 4,
+      "bill": 0
+    },
+    {
+      "id": "9111",
+      "status": "Free",
+      "peopleAmount": 0,
+      "maxPeopleAmount": 4,
+      "bill": 0
+    },
+    {
+      "id": 9112,
       "status": "Free",
       "peopleAmount": 0,
       "maxPeopleAmount": 4,
