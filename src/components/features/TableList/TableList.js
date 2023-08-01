@@ -21,6 +21,7 @@ const TableList = () => {
         e.preventDefault();
         console.log(id);
         dispatch(removeTableRequest(id));
+        navigate("/");
     }
     return(
         <Container>

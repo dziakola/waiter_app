@@ -7,6 +7,8 @@ const ADD_TABLE = createActionName('ADD_TABLE');
 const REMOVE_TABLE = createActionName('REMOVE_TABLE');
 const EDIT_TABLE = createActionName('EDIT_TABLE');
 
+//selectors
+export const getAllTables = state => state.tables;
 // action creators
 export const updateTables = payload => ({ type: UPDATE_TABLES, payload });
 export const addTable = payload => ({ type: ADD_TABLE, payload });
@@ -47,7 +49,7 @@ export const addTableRequest = (newTable) => {
   }
 }
 
-export const removeTableRequest = (id) => {
+/* export const removeTableRequest = (id) => {
   return (dispatch) => {
     const options = {
       method: 'DELETE',
@@ -68,7 +70,24 @@ export const removeTableRequest = (id) => {
     .catch(error => console.log("Error: ", error));
 
   }
-}
+} */
+export const removeTableRequest = (id) => {
+  return (dispatch) => {
+    const removedId = {id};
+
+    const options = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(removedId),
+    }
+    fetch(`${API_URL}/tables/${id}`, options)
+      .then((res) => res.json())
+      //.then((data) => console.log('data', data));
+      .then((data) => dispatch(removeTable(id)));
+  };
+};
 
 export const changeTableRequest = (editedTable) => {
   return (dispatch) => {
@@ -106,6 +125,5 @@ const tablesReducer = (statePart = [], action) => {
       return statePart;
   };
 };
-//selectors
-export const getAllTables = state => state.tables;
+
 export default tablesReducer;
