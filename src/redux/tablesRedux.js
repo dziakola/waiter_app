@@ -54,7 +54,7 @@ export const removeTableRequest = (id) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({id}),
+      body: JSON.stringify({"id":id}),
     };
     fetch(`${API_URL}/tables/${id}`, options)
     .then((res)=> {

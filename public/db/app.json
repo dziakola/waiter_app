@@ -6,13 +6,6 @@
       "peopleAmount": 0,
       "maxPeopleAmount": 4,
       "bill": 0
-    },
-    {
-      "id": 10,
-      "status": "Free",
-      "peopleAmount": 0,
-      "maxPeopleAmount": 4,
-      "bill": 0
     }
   ]
 }
