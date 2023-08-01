@@ -49,13 +49,12 @@ export const addTableRequest = (newTable) => {
 
 export const removeTableRequest = (id) => {
   return (dispatch) => {
-    const removedId = { id };
     const options = {
       method: 'DELETE',
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(removedId),
+      body: JSON.stringify({id}),
     };
     fetch(`${API_URL}/tables/${id}`, options)
     .then((res)=> {
@@ -63,7 +62,7 @@ export const removeTableRequest = (id) => {
         throw new Error('Something went wrong');
       }
       else {
-        res.json().then((data)=>dispatch(removeTable(id)))
+        res.json().then(()=>dispatch(removeTable(id)))
       }
     })
     .catch(error => console.log("Error: ", error));
