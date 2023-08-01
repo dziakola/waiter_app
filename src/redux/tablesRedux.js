@@ -49,7 +49,7 @@ export const addTableRequest = (newTable) => {
   }
 }
 
-export const removeTableRequest = (id) => {
+/* export const removeTableRequest = (id) => {
   return (dispatch) => {
     const options = {
       method: 'DELETE',
@@ -70,7 +70,24 @@ export const removeTableRequest = (id) => {
     .catch(error => console.log("Error: ", error));
 
   }
-}
+} */
+export const removeTableRequest = (id) => {
+  return (dispatch) => {
+    const removedId = {id};
+
+    const options = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(removedId),
+    }
+    fetch(`${API_URL}/tables/${id}`, options)
+      .then((res) => res.json())
+      //.then((data) => console.log('data', data));
+      .then((data) => dispatch(removeTable(id)));
+  };
+};
 
 export const changeTableRequest = (editedTable) => {
   return (dispatch) => {
@@ -99,7 +116,7 @@ const tablesReducer = (statePart = [], action) => {
     case ADD_TABLE:
       return [...statePart, { ...action.payload }]
     case REMOVE_TABLE:
-      return statePart.filter(table => table.id !== action.payload)
+      return statePart.filter((table) => table.id !== action.payload);
     case EDIT_TABLE:
       return statePart.map((table) =>
         table.id === action.payload.id ? { ...table, ...action.payload } : table
