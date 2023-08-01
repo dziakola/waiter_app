@@ -8,11 +8,11 @@ const REMOVE_TABLE = createActionName('REMOVE_TABLE');
 const EDIT_TABLE = createActionName('EDIT_TABLE');
 
 //selectors
-export const getAllTables = state => state.tables;
+export const getAllTables = (state) => state.tables;
 // action creators
 export const updateTables = payload => ({ type: UPDATE_TABLES, payload });
 export const addTable = payload => ({ type: ADD_TABLE, payload });
-export const removeTable = payload => ({ type: REMOVE_TABLE, payload });
+export const removeTable = (payload) => ({ type: REMOVE_TABLE, payload });
 export const editTable = payload => ({ type: EDIT_TABLE, payload });
 
 //requests

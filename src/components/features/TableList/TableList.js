@@ -10,15 +10,14 @@ const TableList = () => {
     const tables = useSelector(getAllTables);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    if(tables.length === 0)
+    if(!tables)
     return (
       <div>
         <Spinner animation='border' variant='primary' />
         <p>Loading</p>
       </div>
     );
-        const handleSubmit = (e, id) => {
-        e.preventDefault();
+        const handleSubmit = (id) => {
         console.log(id);
         dispatch(removeTableRequest(id));
         navigate("/");
@@ -39,7 +38,7 @@ const TableList = () => {
                         </Link>
                     </Col>
                     <Col md={2}>
-                        <Button onClick={(e)=>handleSubmit(e,table.id)}>REMOVE</Button>
+                        <Button onClick={()=>handleSubmit(table.id)}>REMOVE</Button>
                     </Col>
                 </Row>
             ))}

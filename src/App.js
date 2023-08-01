@@ -18,6 +18,7 @@ const App = () => {
       <Header />
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path="/tables" element={<Home />}/>
         <Route path='/table' element={<Table />} />
         <Route path='/table/:tableId' element={<Table />} />
         <Route path='/*' element={<NotFound />} />
